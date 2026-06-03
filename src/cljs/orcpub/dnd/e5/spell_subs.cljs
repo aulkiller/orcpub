@@ -18,6 +18,7 @@
             [orcpub.dnd.e5.monsters :as monsters5e]
             [orcpub.dnd.e5.selections :as selections5e]
             [orcpub.dnd.e5.encounters :as encounters5e]
+            [orcpub.dnd.e5.templates.blood-hunter :as blood-hunter]
             [orcpub.dnd.e5.combat :as combat5e]
             [orcpub.dnd.e5.spell-lists :as sl5e]
             [orcpub.dnd.e5.armor :as armor5e]
@@ -940,7 +941,8 @@
    (classes5e/rogue-option spell-lists spells-map plugin-subclasses-map language-map weapons-map)
    (classes5e/sorcerer-option spell-lists spells-map plugin-subclasses-map language-map weapons-map)
    (classes5e/warlock-option spell-lists spells-map plugin-subclasses-map language-map  weapons-map invocations boons)
-   (classes5e/wizard-option spell-lists spells-map plugin-subclasses-map language-map weapons-map)])
+   (classes5e/wizard-option spell-lists spells-map plugin-subclasses-map language-map weapons-map)
+   (blood-hunter/blood-hunter-option spell-lists spells-map plugin-subclasses-map language-map weapons-map)])
 
 (reg-sub
  ::classes5e/classes

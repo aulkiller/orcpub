@@ -103,13 +103,28 @@ services:
       ORCPUB_PORT: ${PORT:-8890}
     volumes:
       - ./deploy/nginx.conf.template:/etc/nginx/templates/default.conf.template
-      - ./deploy/snakeoil.crt:/etc/nginx/snakeoil.crt
-      - ./deploy/snakeoil.key:/etc/nginx/snakeoil.key
+      - ssl-certs:/etc/nginx/ssl
       - ./deploy/homebrew/:/usr/share/nginx/html/homebrew/
+    entrypoint: /bin/sh
+    command:
+      - -c
+      - |
+        if [ ! -f /etc/nginx/ssl/snakeoil.crt ]; then
+          apk add --no-cache openssl >/dev/null 2>&1
+          openssl req -x509 -nodes -days 3650 -newkey rsa:2048 \
+            -keyout /etc/nginx/ssl/snakeoil.key \
+            -out /etc/nginx/ssl/snakeoil.crt \
+            -subj "/CN=localhost" 2>/dev/null
+          echo "Generated self-signed SSL certificate."
+        fi
+        /docker-entrypoint.sh nginx -g "daemon off;"
     depends_on:
       orcpub:
         condition: service_healthy
     restart: always
+
+volumes:
+  ssl-certs:
 
 # --- Docker Secrets ---
 # Uncomment to use Docker secrets instead of .env for passwords.

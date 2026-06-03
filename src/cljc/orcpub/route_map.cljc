@@ -20,6 +20,7 @@
 (def dnd-e5-char-folder-name-route :char-folder-name-5e)
 (def dnd-e5-char-folder-characters-route :char-folder-characters-5e)
 (def dnd-e5-char-folder-character-route :char-folder-character-5e)
+(def dnd-e5-play-mode-route :play-mode-5e)
 (def dnd-e5-orcacle-page-route :orcacle-page)
 
 (def dnd-e5-char-page-routes #{default-route
@@ -27,7 +28,8 @@
                                dnd-e5-newb-char-builder-route
                                dnd-e5-char-list-page-route
                                dnd-e5-char-page-route
-                               dnd-e5-char-parties-page-route})
+                               dnd-e5-char-parties-page-route
+                               dnd-e5-play-mode-route})
 
 (def dnd-e5-monster-list-page-route :monster-list-5e-page)
 (def dnd-e5-monster-page-route :monster-5e-page)
@@ -178,6 +180,7 @@
                               "newb-character-builder" dnd-e5-newb-char-builder-route
                               "characters" {"" dnd-e5-char-list-page-route
                                             ["/" :id] dnd-e5-char-page-route}
+                              "play" {["/" :id] dnd-e5-play-mode-route}
                               "orcacle" dnd-e5-orcacle-page-route
                               "parties" dnd-e5-char-parties-page-route
                               "background-builder" dnd-e5-background-builder-page-route

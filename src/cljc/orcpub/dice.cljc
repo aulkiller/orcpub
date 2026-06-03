@@ -80,3 +80,48 @@
  dice-roll
  :args (spec/cat :x ::roll-args)
  :ret pos-int?)
+
+;; --- Play Mode Extensions ---
+
+(defn parse-notation
+  "Parse XdY+Z notation into a map. Returns nil if invalid."
+  [notation]
+  (when-let [[_ num-str sides-str plus-minus-str mod-str]
+             (re-matches dice-regex (str notation))]
+    {:num (or (parse-int num-str) 1)
+     :sides (parse-int sides-str)
+     :modifier (* (or (parse-int mod-str) 0)
+                  (if (= "-" plus-minus-str) -1 1))}))
+
+(defn roll-full
+  "Roll dice and return full result with individual die values."
+  [{:keys [num sides modifier] :or {num 1 modifier 0}}]
+  (let [results (vec (roll-n num sides))
+        total (+ modifier (apply + results))]
+    {:dice (mapv (fn [r] {:sides sides :result r}) results)
+     :modifier modifier
+     :total total}))
+
+(defn roll-with-advantage
+  "Roll 2d20, keep highest, add modifier."
+  [modifier]
+  (let [r1 (die-roll 20)
+        r2 (die-roll 20)
+        kept (max r1 r2)]
+    {:dice [{:sides 20 :result r1} {:sides 20 :result r2}]
+     :kept kept
+     :modifier (or modifier 0)
+     :total (+ kept (or modifier 0))
+     :advantage? true}))
+
+(defn roll-with-disadvantage
+  "Roll 2d20, keep lowest, add modifier."
+  [modifier]
+  (let [r1 (die-roll 20)
+        r2 (die-roll 20)
+        kept (min r1 r2)]
+    {:dice [{:sides 20 :result r1} {:sides 20 :result r2}]
+     :kept kept
+     :modifier (or modifier 0)
+     :total (+ kept (or modifier 0))
+     :disadvantage? true}))

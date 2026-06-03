@@ -604,7 +604,10 @@
   {:min-width sm-min})
 
 (def media-queries
-  [[:.visible-xs,
+  [[:.play-mode
+    {:grid-template-columns "1fr"}]
+
+   [:.visible-xs,
     :.visible-sm,
     :.visible-md,
     :.visible-lg
@@ -1599,7 +1602,66 @@
 
     [:.export-issue-missing
      {:color orange
-      :margin-left "8px"}]];concat-bracket
+      :margin-left "8px"}]
+
+    ;; Play Mode Styles
+    [:.play-mode
+     {:display "grid"
+      :grid-template-columns "1fr 1fr"
+      :gap "1rem"
+      :padding "1rem"}]
+    [:.play-column-left {:display "flex" :flex-direction "column" :gap "1rem"}]
+    [:.play-column-right {:display "flex" :flex-direction "column" :gap "1rem"}]
+    [:.hp-tracker {:background "#1a1a2e" :border-radius "8px" :padding "1rem"}]
+    [:.hp-display {:display "flex" :align-items "baseline" :gap "4px" :justify-content "center"}]
+    [:.hp-current {:font-size "2.5rem" :font-weight "bold" :color "#4caf50"}]
+    [:.hp-separator {:font-size "1.5rem" :color "#666"}]
+    [:.hp-max {:font-size "1.5rem" :color "#888"}]
+    [:.hp-temp {:font-size "1rem" :color "#2196f3" :margin-left "8px"}]
+    [:.hp-controls {:display "flex" :gap "8px" :margin-top "8px" :justify-content "center"}]
+    [:.hp-input {:width "80px" :text-align "center" :padding "8px" :border-radius "4px"
+                 :border "1px solid #444" :background "#222" :color "#fff"}]
+    [:.play-button {:min-height "44px" :min-width "44px" :padding "8px 16px"
+                    :border-radius "4px" :border "none" :cursor "pointer"
+                    :font-weight "bold" :color "#fff" :background "#555"}]
+    [:.play-button.sm {:min-height "36px" :min-width "36px" :padding "4px 8px"}]
+    [:.damage-btn {:background "#e53935"}]
+    [:.heal-btn {:background "#43a047"}]
+    [:.rest-btn {:background "#1565c0"}]
+    [:.dice-btn {:background "#6a1b9a" :min-width "52px"}]
+    [:.spell-slot-row {:display "flex" :align-items "center" :gap "8px" :margin "4px 0"}]
+    [:.slot-level {:min-width "60px" :color "#aaa"}]
+    [:.slot-circles {:display "flex" :gap "4px"}]
+    [:.slot-circle {:width "20px" :height "20px" :border-radius "50%"
+                    :border "2px solid #666" :cursor "pointer"}]
+    [:.slot-circle.used {:background "#e53935" :border-color "#e53935"}]
+    [:.save-circle {:display "inline-block" :width "16px" :height "16px"
+                    :border-radius "50%" :border "2px solid #666" :margin "0 2px"}]
+    [:.save-circle.filled {:background "#4caf50" :border-color "#4caf50"}]
+    [:.save-circle.failure.filled {:background "#e53935" :border-color "#e53935"}]
+    [:.condition-grid {:display "flex" :flex-wrap "wrap" :gap "4px"}]
+    [:.condition-toggle {:padding "4px 8px" :border-radius "4px" :border "1px solid #444"
+                         :cursor "pointer" :font-size "0.75rem"}]
+    [:.condition-toggle.active {:background "#e65100" :border-color "#e65100" :color "#fff"}]
+    [:.dice-roller {:background "#1a1a2e" :border-radius "8px" :padding "1rem"}]
+    [:.dice-quick-buttons {:display "flex" :flex-wrap "wrap" :gap "4px" :margin-bottom "8px"}]
+    [:.dice-input {:flex "1" :padding "8px" :border-radius "4px"
+                   :border "1px solid #444" :background "#222" :color "#fff"}]
+    [:.dice-custom {:display "flex" :gap "8px"}]
+    [:.dice-result {:display "flex" :gap "8px" :padding "4px 0" :border-bottom "1px solid #333"}]
+    [:.dice-notation {:color "#aaa" :min-width "60px"}]
+    [:.dice-total {:font-weight "bold" :color "#fff"}]
+    [:.dice-detail {:color "#666" :font-size "0.85rem"}]
+    [:.equipment-item {:display "flex" :align-items "center" :gap "8px" :padding "4px 0"}]
+    [:.resource-item {:display "flex" :align-items "center" :gap "8px" :padding "4px 0"}]
+    [:.resource-name {:flex "1"}]
+    [:.resource-count {:font-weight "bold"}]
+    [:.rules-modal-backdrop {:position "fixed" :inset "0" :background "rgba(0,0,0,0.7)"
+                             :display "flex" :align-items "center" :justify-content "center" :z-index "1000"}]
+    [:.rules-modal {:background "#1a1a2e" :border-radius "8px" :padding "1.5rem"
+                    :max-width "600px" :width "90%" :max-height "80vh" :overflow-y "auto"}]
+    [:.rules-modal-header {:display "flex" :justify-content "space-between" :align-items "center"}]
+    [:.rules-close {:background "none" :border "none" :color "#fff" :font-size "1.5rem" :cursor "pointer"}]];concat-bracket
    margin-lefts
    margin-tops
    widths

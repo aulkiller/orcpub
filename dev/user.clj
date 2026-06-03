@@ -280,6 +280,12 @@
       (do (delete-user! (conn) (first args))
           (println "User deleted:" (first args)))
 
+      "seed-compendium"
+      (let [c (conn)]
+        (require 'orcpub.compendium.seed)
+        (let [result ((resolve 'orcpub.compendium.seed/seed-compendium!) c)]
+          (println "Compendium seeded:" result)))
+
       ;; default
       (do (println "Usage: lein with-profile init-db run -m user <command> [args]")
           (println "")
@@ -288,6 +294,7 @@
           (println "  create-user <u> <e> <p> [verify]   Create a user")
           (println "  verify-user <name-or-email>        Mark user as verified")
           (println "  delete-user <name-or-email>        Delete a user")
+          (println "  seed-compendium                    Seed SRD spells & monsters into compendium")
           (System/exit 1)))
     (catch Exception e
       (binding [*out* *err*]

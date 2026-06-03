@@ -44,6 +44,9 @@
             [orcpub.fork.user-data :as user-data]
             [orcpub.routes.party :as party]
             [orcpub.routes.folder :as folder]
+            [orcpub.routes.play :as play]
+            [orcpub.routes.compendium :as compendium]
+            [orcpub.routes.campaign :as campaign]
             [hiccup.page :as page]
             [environ.core :as environ]
             [clojure.set :as sets]
@@ -1510,7 +1513,60 @@
        [(route-map/path-for route-map/check-username-route)
         {:get `check-username}]
        ["/health"
-        {:get `health-check}]]]])
+        {:get `health-check}]
+
+       ;; Campaign API
+       ["/api/campaigns" ^:interceptors [check-auth]
+        {:get `campaign/list-campaigns
+         :post `campaign/create-campaign}]
+       ["/api/campaigns/join" ^:interceptors [check-auth]
+        {:post `campaign/join-campaign}]
+       ["/api/campaigns/:id" ^:interceptors [check-auth]
+        {:get `campaign/get-campaign}]
+       ["/api/campaigns/:id/invite" ^:interceptors [check-auth campaign/check-campaign-owner]
+        {:post `campaign/generate-invite}]
+       ["/api/campaigns/:id/leave" ^:interceptors [check-auth]
+        {:post `campaign/leave-campaign}]
+       ["/api/campaigns/:id/members/:member" ^:interceptors [check-auth campaign/check-campaign-owner]
+        {:delete `campaign/remove-member}]
+
+       ;; Content Compendium API
+       ["/api/compendium/search"
+        {:post `compendium/search}]
+       ["/api/compendium/:type"
+        {:get `compendium/list-by-type}]
+       ["/api/compendium/:type/:key"
+        {:get `compendium/get-entry}]
+
+       ;; Play Mode API
+       ["/api/play/:character-id/state" ^:interceptors [check-auth play/validate-character-ownership]
+        {:get `play/get-play-state}]
+       ["/api/play/:character-id/damage" ^:interceptors [check-auth play/validate-character-ownership]
+        {:post `play/take-damage}]
+       ["/api/play/:character-id/heal" ^:interceptors [check-auth play/validate-character-ownership]
+        {:post `play/heal-hp}]
+       ["/api/play/:character-id/temp-hp" ^:interceptors [check-auth play/validate-character-ownership]
+        {:post `play/set-temp-hp}]
+       ["/api/play/:character-id/spell-slot" ^:interceptors [check-auth play/validate-character-ownership]
+        {:post `play/use-spell-slot}]
+       ["/api/play/:character-id/resource" ^:interceptors [check-auth play/validate-character-ownership]
+        {:post `play/use-resource}]
+       ["/api/play/:character-id/equipment" ^:interceptors [check-auth play/validate-character-ownership]
+        {:post `play/toggle-equipment}]
+       ["/api/play/:character-id/short-rest" ^:interceptors [check-auth play/validate-character-ownership]
+        {:post `play/do-short-rest}]
+       ["/api/play/:character-id/long-rest" ^:interceptors [check-auth play/validate-character-ownership]
+        {:post `play/do-long-rest}]
+       ["/api/play/:character-id/condition" ^:interceptors [check-auth play/validate-character-ownership]
+        {:post `play/set-condition}]
+       ["/api/play/:character-id/death-save" ^:interceptors [check-auth play/validate-character-ownership]
+        {:post `play/record-death-save}]
+       ["/api/play/:character-id/prepared" ^:interceptors [check-auth play/validate-character-ownership]
+        {:post `play/set-prepared-spells}]
+       ["/api/play/:character-id/rite" ^:interceptors [check-auth play/validate-character-ownership]
+        {:post `play/toggle-rite}]
+       ["/api/play/:character-id/blood-curse" ^:interceptors [check-auth play/validate-character-ownership]
+        {:post `play/use-blood-curse}]]]])
    expanded-index-routes))
 
 

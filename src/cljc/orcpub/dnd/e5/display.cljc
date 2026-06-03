@@ -31,6 +31,8 @@
                :url "http://media.wizards.com/2016/dnd/downloads/UA_Cleric.pdf"}
    :ua-artificer {:abbr "UA-Artificer"
                   :url "http://www.dmsguild.com/product/213032/Unearthed-Arcana-The-Artificer-Class-5e"}
+   :blood-hunter {:abbr "BH"
+                  :url "https://www.dndbeyond.com/classes/blood-hunter"}
    :ua-eberron {:abbr "UA-Eberron"
                 :url "http://media.wizards.com/2015/downloads/dnd/UA_Eberron_v1.1.pdf"}
    :ua-race-feats {:abbr "UA-Race-Feats"

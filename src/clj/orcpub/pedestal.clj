@@ -9,7 +9,8 @@
             [java-time.api :as t]
             [orcpub.csp :as csp]
             [orcpub.config :as config]
-            [orcpub.fork.integrations :as integrations])
+            [orcpub.fork.integrations :as integrations]
+            [orcpub.websocket :as ws])
   (:import [java.io File]
            [java.time.format DateTimeFormatter]))
 
@@ -107,12 +108,14 @@
   (start [this]
     (if service
       this
-      (cond-> service-map
-        ;; nonce-interceptor first: runs last in :leave phase (sets CSP header after response built)
-        true (update ::http/interceptors conj nonce-interceptor (db-interceptor conn) etag-interceptor)
-        true http/create-server
-        (not (test? service-map)) http/start
-        true ((partial assoc this :service)))))
+      (let [svc (cond-> service-map
+                  true (update ::http/interceptors conj nonce-interceptor (db-interceptor conn) etag-interceptor)
+                  true http/create-server)]
+        (when-not (test? service-map)
+          (when-let [server (get-in svc [::http/server])]
+            (ws/add-websocket-handler! server))
+          (http/start svc))
+        (assoc this :service svc))))
 
   (stop [this]
     (when (and service (not (test? service-map)))

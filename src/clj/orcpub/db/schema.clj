@@ -404,6 +404,156 @@
      ::weapon5e/reach?
      ::weapon5e/ammunition?])))
 
+(def campaign-schema
+  [{:db/ident :orcpub.campaign/name
+    :db/valueType :db.type/string
+    :db/cardinality :db.cardinality/one}
+   {:db/ident :orcpub.campaign/owner
+    :db/valueType :db.type/string
+    :db/cardinality :db.cardinality/one}
+   {:db/ident :orcpub.campaign/invite-code
+    :db/valueType :db.type/string
+    :db/cardinality :db.cardinality/one
+    :db/unique :db.unique/value}
+   {:db/ident :orcpub.campaign/members
+    :db/valueType :db.type/string
+    :db/cardinality :db.cardinality/many}
+   {:db/ident :orcpub.campaign/character-ids
+    :db/valueType :db.type/ref
+    :db/cardinality :db.cardinality/many}
+   {:db/ident :orcpub.campaign/notes
+    :db/valueType :db.type/string
+    :db/cardinality :db.cardinality/one}])
+
+(def compendium-schema
+  [{:db/ident :orcpub.compendium/type
+    :db/valueType :db.type/keyword
+    :db/cardinality :db.cardinality/one}
+   {:db/ident :orcpub.compendium/key
+    :db/valueType :db.type/keyword
+    :db/cardinality :db.cardinality/one
+    :db/unique :db.unique/identity}
+   {:db/ident :orcpub.compendium/name
+    :db/valueType :db.type/string
+    :db/cardinality :db.cardinality/one
+    :db/fulltext true}
+   {:db/ident :orcpub.compendium/level
+    :db/valueType :db.type/long
+    :db/cardinality :db.cardinality/one}
+   {:db/ident :orcpub.compendium/school
+    :db/valueType :db.type/keyword
+    :db/cardinality :db.cardinality/one}
+   {:db/ident :orcpub.compendium/cr
+    :db/valueType :db.type/string
+    :db/cardinality :db.cardinality/one}
+   {:db/ident :orcpub.compendium/monster-type
+    :db/valueType :db.type/keyword
+    :db/cardinality :db.cardinality/one}
+   {:db/ident :orcpub.compendium/size
+    :db/valueType :db.type/string
+    :db/cardinality :db.cardinality/one}
+   {:db/ident :orcpub.compendium/rarity
+    :db/valueType :db.type/keyword
+    :db/cardinality :db.cardinality/one}
+   {:db/ident :orcpub.compendium/description
+    :db/valueType :db.type/string
+    :db/cardinality :db.cardinality/one
+    :db/fulltext true}
+   {:db/ident :orcpub.compendium/casting-time
+    :db/valueType :db.type/string
+    :db/cardinality :db.cardinality/one}
+   {:db/ident :orcpub.compendium/range
+    :db/valueType :db.type/string
+    :db/cardinality :db.cardinality/one}
+   {:db/ident :orcpub.compendium/duration
+    :db/valueType :db.type/string
+    :db/cardinality :db.cardinality/one}
+   {:db/ident :orcpub.compendium/components
+    :db/valueType :db.type/string
+    :db/cardinality :db.cardinality/one}
+   {:db/ident :orcpub.compendium/concentration
+    :db/valueType :db.type/boolean
+    :db/cardinality :db.cardinality/one}
+   {:db/ident :orcpub.compendium/hp
+    :db/valueType :db.type/long
+    :db/cardinality :db.cardinality/one}
+   {:db/ident :orcpub.compendium/ac
+    :db/valueType :db.type/long
+    :db/cardinality :db.cardinality/one}
+   {:db/ident :orcpub.compendium/source
+    :db/valueType :db.type/string
+    :db/cardinality :db.cardinality/one}])
+
+(def play-state-schema
+  [{:db/ident :orcpub.dnd.e5.play/current-hp
+    :db/valueType :db.type/long
+    :db/cardinality :db.cardinality/one
+    :db/noHistory true}
+   {:db/ident :orcpub.dnd.e5.play/temp-hp
+    :db/valueType :db.type/long
+    :db/cardinality :db.cardinality/one
+    :db/noHistory true}
+   {:db/ident :orcpub.dnd.e5.play/max-hp-modifier
+    :db/valueType :db.type/long
+    :db/cardinality :db.cardinality/one
+    :db/noHistory true}
+   {:db/ident :orcpub.dnd.e5.play/spell-slots-used
+    :db/valueType :db.type/string
+    :db/cardinality :db.cardinality/one
+    :db/noHistory true}
+   {:db/ident :orcpub.dnd.e5.play/pact-slots-used
+    :db/valueType :db.type/long
+    :db/cardinality :db.cardinality/one
+    :db/noHistory true}
+   {:db/ident :orcpub.dnd.e5.play/resources-used
+    :db/valueType :db.type/string
+    :db/cardinality :db.cardinality/one
+    :db/noHistory true}
+   {:db/ident :orcpub.dnd.e5.play/conditions
+    :db/valueType :db.type/string
+    :db/cardinality :db.cardinality/one
+    :db/noHistory true}
+   {:db/ident :orcpub.dnd.e5.play/custom-conditions
+    :db/valueType :db.type/string
+    :db/cardinality :db.cardinality/one
+    :db/noHistory true}
+   {:db/ident :orcpub.dnd.e5.play/death-save-successes
+    :db/valueType :db.type/long
+    :db/cardinality :db.cardinality/one
+    :db/noHistory true}
+   {:db/ident :orcpub.dnd.e5.play/death-save-failures
+    :db/valueType :db.type/long
+    :db/cardinality :db.cardinality/one
+    :db/noHistory true}
+   {:db/ident :orcpub.dnd.e5.play/equipped-items
+    :db/valueType :db.type/string
+    :db/cardinality :db.cardinality/one
+    :db/noHistory true}
+   {:db/ident :orcpub.dnd.e5.play/attuned-items
+    :db/valueType :db.type/string
+    :db/cardinality :db.cardinality/one
+    :db/noHistory true}
+   {:db/ident :orcpub.dnd.e5.play/active-rites
+    :db/valueType :db.type/string
+    :db/cardinality :db.cardinality/one
+    :db/noHistory true}
+   {:db/ident :orcpub.dnd.e5.play/blood-curses-used
+    :db/valueType :db.type/long
+    :db/cardinality :db.cardinality/one
+    :db/noHistory true}
+   {:db/ident :orcpub.dnd.e5.play/prepared-spells
+    :db/valueType :db.type/string
+    :db/cardinality :db.cardinality/one
+    :db/noHistory true}
+   {:db/ident :orcpub.dnd.e5.play/hit-dice-used
+    :db/valueType :db.type/string
+    :db/cardinality :db.cardinality/one
+    :db/noHistory true}
+   {:db/ident :orcpub.dnd.e5.play/mode
+    :db/valueType :db.type/keyword
+    :db/cardinality :db.cardinality/one
+    :db/noHistory true}])
+
 (def all-schemas
   (concat
    user-schema
@@ -415,4 +565,7 @@
    party-schema
    folder-schema
    magic-item-schema
-   weapon-schema))
+   weapon-schema
+   play-state-schema
+   compendium-schema
+   campaign-schema))
