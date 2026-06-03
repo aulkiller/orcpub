@@ -365,3 +365,21 @@ Files modified:
 **Context**: Deployment fix — zero-touch first boot
 
 ---
+
+## Post-Construction — Zettlab ARM Deployment Config
+**Timestamp**: 2026-06-03T18:28:49Z
+**User Input**: Requested Zettlab D4 (ARM) compose file matching their platform format
+**AI Response**: Created deploy/zettlab-compose.yaml — simplified 2-container setup (no nginx, direct port 8890). Uses aulkiller/dmv:app and aulkiller/dmv:datomic images. Requires multi-arch buildx push for ARM support.
+
+Files created:
+- deploy/zettlab-compose.yaml
+
+Deployment steps for Zettlab:
+1. Build multi-arch: docker buildx build --platform linux/amd64,linux/arm64 -t aulkiller/dmv:app --target app --push .
+2. Build multi-arch: docker buildx build --platform linux/amd64,linux/arm64 -t aulkiller/dmv:datomic --target transactor --push .
+3. On Zettlab: create dmv/ folder with docker-compose.yaml + data/ + logs/ + homebrew/
+4. docker compose up -d → auto-seeds + auto-creates user
+5. Access http://<zettlab-ip>:8890
+**Context**: ARM deployment configuration
+
+---

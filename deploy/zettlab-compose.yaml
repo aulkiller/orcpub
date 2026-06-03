@@ -1,0 +1,47 @@
+services:
+  datomic:
+    image: aulkiller/dmv:datomic
+    container_name: dmv-datomic
+    deploy:
+      resources:
+        reservations:
+          memory: "512M"
+    environment:
+      ADMIN_PASSWORD: changemeAdmin123
+      DATOMIC_PASSWORD: changemeDb123
+      ALT_HOST: datomic
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: ./data
+        target: /data
+      - type: bind
+        source: ./logs
+        target: /log
+
+  orcpub:
+    image: aulkiller/dmv:app
+    container_name: dmv-app
+    deploy:
+      resources:
+        reservations:
+          memory: "1024M"
+    depends_on:
+      - datomic
+    environment:
+      DATOMIC_URL: "datomic:dev://datomic:4334/orcpub"
+      DATOMIC_PASSWORD: changemeDb123
+      SIGNATURE: "replace-this-with-20plus-random-chars-xyz"
+      INIT_ADMIN_USER: ihza
+      INIT_ADMIN_EMAIL: ihza@example.com
+      INIT_ADMIN_PASSWORD: changeme
+      PORT: "8890"
+    ports:
+      - target: 8890
+        published: "8890"
+        protocol: tcp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: ./homebrew
+        target: /usr/src/app/deploy/homebrew
