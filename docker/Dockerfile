@@ -94,11 +94,11 @@ RUN lein run -m figwheel.main -- --build-once prod && \
     test -f resources/public/js/compiled/orcpub.js
 
 # Step 2: AOT compile (compilation finishes, subprocess hangs, timeout kills)
-RUN timeout 300 lein with-profile uberjar,uberjar-package compile || true; \
+RUN timeout 900 lein with-profile uberjar,uberjar-package compile || true; \
     test -f target/classes/orcpub/server__init.class || exit 1
 
 # Step 3: garden CSS + jar packaging (no compile — .class files from step 2)
-RUN timeout 600 lein with-profile uberjar,uberjar-package uberjar; \
+RUN timeout 900 lein with-profile uberjar,uberjar-package uberjar; \
     test -f target/orcpub.jar || exit 1
 
 # Alpine runner — BusyBox wget handles healthchecks (use -q --spider, not GNU flags)
