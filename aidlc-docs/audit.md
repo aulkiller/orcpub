@@ -383,3 +383,16 @@ Deployment steps for Zettlab:
 **Context**: ARM deployment configuration
 
 ---
+
+## Post-Construction — Dockerfile ARM Fix
+**Timestamp**: 2026-06-05T18:01:52Z
+**User Input**: ARM build failed (300s timeout too short for QEMU-emulated AOT compile)
+**AI Response**: Increased compile timeout 300s→900s and uberjar timeout 600s→900s in docker/Dockerfile. Datomic image pushed successfully to aulkiller/dmv:datomic. App image rebuild in progress.
+
+Files modified:
+- docker/Dockerfile (timeout increase)
+
+Commit: 32be64c6 fix: increase Docker compile timeout for ARM emulation (300s→900s)
+**Context**: Deployment fix for multi-arch build
+
+---
